@@ -2,13 +2,16 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"
+  />
   <title>黑洞收納所</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="gameRoot">
-    <canvas id="gameCanvas" width="1280" height="720"></canvas>
+    <canvas id="gameCanvas"></canvas>
 
     <div id="hudTop">
       <button id="menuBtn" class="icon-btn" aria-label="選單">
@@ -34,7 +37,7 @@
       </div>
     </div>
 
-    <div id="hintText">靠近換錢區會自動出售，靠近升級區會開啟升級畫面</div>
+    <div id="hintText">拖曳畫面移動。靠近綠色換錢區會自動出售，靠近藍色升級區會打開升級畫面。</div>
 
     <div id="menuOverlay" class="overlay hidden">
       <div class="panel menu-panel">
