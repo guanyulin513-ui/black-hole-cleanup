@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>Black Hole Cleanup Prototype</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="stat-card">
+        <div class="label">Money</div>
+        <div class="value" id="moneyText">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="label">Load</div>
+        <div class="value"><span id="loadText">0</span>/<span id="capacityText">0</span></div>
+        <div class="bar">
+          <div class="bar-fill" id="loadBarFill"></div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="label">Progress</div>
+        <div class="value"><span id="progressText">0</span>%</div>
+        <div class="subtext">Pass at 95%, perfect at 100%</div>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <section class="game-panel">
+        <canvas id="gameCanvas" width="960" height="540"></canvas>
+
+        <div class="controls-hint">
+          <span>Desktop: WASD / Arrow Keys</span>
+          <span>Mobile: drag on the canvas</span>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <div class="panel">
+          <h2>Base</h2>
+          <div class="row"><span>Status:</span><strong id="baseStatus">Far from base</strong></div>
+          <div class="row"><span>Can pass:</span><strong id="passStatus">No</strong></div>
+          <div class="row"><span>Perfect clear:</span><strong id="perfectStatus">No</strong></div>
+
+          <div class="button-group">
+            <button id="sellAtBaseBtn">Sell at Base</button>
+            <button id="upgradeHoleBtn">Upgrade Black Hole</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Minecarts</h2>
+          <div class="button-group">
+            <button id="upgradeAllCartsBtn">Upgrade All Minecarts</button>
+          </div>
+          <div id="minecartList" class="minecart-list"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Save</h2>
+          <div class="button-group">
+            <button id="saveBtn">Save</button>
+            <button id="resetBtn" class="danger">Reset Save</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Messages</h2>
+          <div id="messageLog" class="message-log"></div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
