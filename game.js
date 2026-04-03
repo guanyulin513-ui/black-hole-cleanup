@@ -1,5 +1,5 @@
-const STORAGE_KEY = "black-hole-cleanup-save-v5";
-const SAVE_VERSION = 5;
+const STORAGE_KEY = "black-hole-cleanup-save-v6";
+const SAVE_VERSION = 6;
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -26,16 +26,14 @@ const progressText = document.getElementById("progressText");
 const loadBarFill = document.getElementById("loadBarFill");
 const messageLog = document.getElementById("messageLog");
 
-const baseStatus = { sell: false, upgrade: false };
-
 const WORLD = {
   width: 2600,
   height: 1600,
   holeRadiusBase: 24,
   holeRadiusGrowth: 3,
   stationRadius: 110,
-  autoSellRadius: 86,
-  upgradeRadius: 82,
+  autoSellRadius: 88,
+  upgradeRadius: 84,
 };
 
 const LEVELS = [
@@ -506,17 +504,17 @@ function renderMinecartPanel() {
       upgradeBtn.addEventListener("click", () => unlockCart(cart.id));
     }
 
-    const infoBtn = document.createElement("button");
-    infoBtn.textContent = "查看站點";
-    infoBtn.addEventListener("click", () => {
+    const moveBtn = document.createElement("button");
+    moveBtn.textContent = "傳到站點";
+    moveBtn.addEventListener("click", () => {
       closeUpgrade();
-      state.blackHole.x = cart.x - 40;
+      state.blackHole.x = cart.x - 50;
       state.blackHole.y = cart.y;
-      logMessage(`已移到 ${cart.name} 附近。`);
+      logMessage(`已傳到 ${cart.name} 附近。`);
     });
 
     actions.appendChild(upgradeBtn);
-    actions.appendChild(infoBtn);
+    actions.appendChild(moveBtn);
     card.appendChild(actions);
     minecartList.appendChild(card);
   }
@@ -646,36 +644,44 @@ function updatePlayer(dt) {
 
 function updateZones() {
   const nearUpgrade = isNearUpgradeZone();
-
   if (nearUpgrade && !state.ui.upgradeOpen) {
     openUpgrade();
   }
-
   autoSellAtBase();
 }
 
 function updateCamera() {
-  state.camera.x = clamp(state.blackHole.x - canvas.width / 2, 0, WORLD.width - canvas.width);
-  state.camera.y = clamp(state.blackHole.y - canvas.height / 2, 0, WORLD.height - canvas.height);
+  const viewW = canvas.width / dpr;
+  const viewH = canvas.height / dpr;
+  state.camera.x = clamp(state.blackHole.x - viewW / 2, 0, WORLD.width - viewW);
+  state.camera.y = clamp(state.blackHole.y - viewH / 2, 0, WORLD.height - viewH);
 }
 
 function worldToScreen(x, y) {
-  return { x: x - state.camera.x, y: y - state.camera.y };
+  return {
+    x: x - state.camera.x,
+    y: y - state.camera.y
+  };
 }
 
 function screenToWorld(clientX, clientY) {
   const rect = canvas.getBoundingClientRect();
-  const sx = canvas.width / rect.width;
-  const sy = canvas.height / rect.height;
-  const cx = (clientX - rect.left) * sx;
-  const cy = (clientY - rect.top) * sy;
-  return { x: cx + state.camera.x, y: cy + state.camera.y };
+  const cx = clientX - rect.left;
+  const cy = clientY - rect.top;
+  return {
+    x: cx + state.camera.x,
+    y: cy + state.camera.y
+  };
 }
 
+let dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+
 function resizeCanvas() {
-  const dpr = window.devicePixelRatio || 1;
+  dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
   canvas.width = Math.floor(window.innerWidth * dpr);
   canvas.height = Math.floor(window.innerHeight * dpr);
+  canvas.style.width = `${window.innerWidth}px`;
+  canvas.style.height = `${window.innerHeight}px`;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
@@ -705,7 +711,7 @@ function drawFloor() {
 
   const plankH = 52;
   for (let y = -((state.camera.y % plankH) + plankH); y < window.innerHeight + plankH; y += plankH) {
-    ctx.fillStyle = y / plankH % 2 === 0 ? "#d8c39d" : "#d2bc93";
+    ctx.fillStyle = (Math.floor(y / plankH) % 2 === 0) ? "#d8c39d" : "#d2bc93";
     ctx.fillRect(0, y, window.innerWidth, plankH - 2);
   }
 }
@@ -1009,16 +1015,6 @@ window.addEventListener("pointerup", () => {
   input.pointerActive = false;
 });
 
-menuBtn.addEventListener("click", openMenu);
-closeMenuBtn.addEventListener("click", closeMenu);
-closeUpgradeBtn.addEventListener("click", closeUpgrade);
-saveBtn.addEventListener("click", () => saveGame(true));
-resetBtn.addEventListener("click", resetGame);
-upgradeHoleBtn.addEventListener("click", upgradeBlackHole);
-upgradeAllCartsBtn.addEventListener("click", upgradeAllCarts);
-
-window.addEventListener("resize", resizeCanvas);
-
 canvas.addEventListener("dblclick", () => {
   for (const cart of state.carts) {
     if (isNearCartStation(cart)) {
@@ -1027,6 +1023,15 @@ canvas.addEventListener("dblclick", () => {
     }
   }
 });
+
+menuBtn.addEventListener("click", openMenu);
+closeMenuBtn.addEventListener("click", closeMenu);
+closeUpgradeBtn.addEventListener("click", closeUpgrade);
+saveBtn.addEventListener("click", () => saveGame(true));
+resetBtn.addEventListener("click", resetGame);
+upgradeHoleBtn.addEventListener("click", upgradeBlackHole);
+upgradeAllCartsBtn.addEventListener("click", upgradeAllCarts);
+window.addEventListener("resize", resizeCanvas);
 
 let state = loadGame() || createLevelState(1);
 let lastTime = performance.now();
