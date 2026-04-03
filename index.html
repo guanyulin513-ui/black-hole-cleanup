@@ -1,78 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   />
-  <title>Black Hole Cleanup Prototype</title>
+  <title>黑洞收納所</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="app">
     <header class="topbar">
       <div class="stat-card">
-        <div class="label">Money</div>
+        <div class="label">金幣</div>
         <div class="value" id="moneyText">0</div>
       </div>
 
       <div class="stat-card">
-        <div class="label">Load</div>
-        <div class="value"><span id="loadText">0</span>/<span id="capacityText">0</span></div>
+        <div class="label">載量</div>
+        <div class="value"><span id="loadText">0</span> / <span id="capacityText">0</span></div>
         <div class="bar">
           <div class="bar-fill" id="loadBarFill"></div>
         </div>
       </div>
 
       <div class="stat-card">
-        <div class="label">Progress</div>
+        <div class="label">清理進度</div>
         <div class="value"><span id="progressText">0</span>%</div>
-        <div class="subtext">Pass at 95%, perfect at 100%</div>
+        <div class="subtext">95% 可過關，100% 完美獎勵</div>
       </div>
     </header>
 
     <main class="main-layout">
       <section class="game-panel">
         <canvas id="gameCanvas" width="960" height="540"></canvas>
-
         <div class="controls-hint">
-          <span>Desktop: WASD / Arrow Keys</span>
-          <span>Mobile: drag on the canvas</span>
+          <span>電腦：WASD / 方向鍵</span>
+          <span>手機：在畫面上拖曳移動</span>
         </div>
       </section>
 
       <aside class="sidebar">
         <div class="panel">
-          <h2>Base</h2>
-          <div class="row"><span>Status:</span><strong id="baseStatus">Far from base</strong></div>
-          <div class="row"><span>Can pass:</span><strong id="passStatus">No</strong></div>
-          <div class="row"><span>Perfect clear:</span><strong id="perfectStatus">No</strong></div>
+          <h2>基地</h2>
+          <div class="row"><span>狀態：</span><strong id="baseStatus">不在基地旁</strong></div>
+          <div class="row"><span>可過關：</span><strong id="passStatus">否</strong></div>
+          <div class="row"><span>完美通關：</span><strong id="perfectStatus">否</strong></div>
 
           <div class="button-group">
-            <button id="sellAtBaseBtn">Sell at Base</button>
-            <button id="upgradeHoleBtn">Upgrade Black Hole</button>
+            <button id="sellAtBaseBtn">基地換錢</button>
+            <button id="upgradeHoleBtn">升級黑洞</button>
           </div>
         </div>
 
         <div class="panel">
-          <h2>Minecarts</h2>
+          <h2>礦車</h2>
           <div class="button-group">
-            <button id="upgradeAllCartsBtn">Upgrade All Minecarts</button>
+            <button id="upgradeAllCartsBtn">升級全部礦車</button>
           </div>
           <div id="minecartList" class="minecart-list"></div>
         </div>
 
         <div class="panel">
-          <h2>Save</h2>
+          <h2>存檔</h2>
           <div class="button-group">
-            <button id="saveBtn">Save</button>
-            <button id="resetBtn" class="danger">Reset Save</button>
+            <button id="saveBtn">手動存檔</button>
+            <button id="resetBtn" class="danger">重置存檔</button>
           </div>
         </div>
 
         <div class="panel">
-          <h2>Messages</h2>
+          <h2>訊息</h2>
           <div id="messageLog" class="message-log"></div>
         </div>
       </aside>
